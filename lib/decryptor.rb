@@ -3,7 +3,7 @@ require_relative 'encryptor'
 require 'date'
 require 'pry'
 
-class Decryptor
+class Decryptor < Encryptor
   attr_reader :message
   attr_accessor :decrypted_message
 
@@ -14,6 +14,7 @@ class Decryptor
     @decrypted_message = []
   end
 
+  # reverses rotor and decrypts encrypted message
   def decrypt
     rotations_one = rotation_gen
     rotations = rotations_one.map do |rotation|
@@ -26,21 +27,22 @@ class Decryptor
     decrypted_message.join("")
   end
 
-  def rotation_gen
-    keys = KeyGen.new.key_map(@key)
-    offsets = KeyGen.new.offsets_map(@date)
-    rotations = [keys, offsets].transpose.map {|rotation| rotation.reduce(:+)}
-  end
-
-  def cipher(rotation)
-    cipher = ('a'..'z').to_a + ('0'..'9').to_a + [" ", ",", "."]
-    rotated_cipher = cipher.rotate(rotation)
-    Hash[cipher.zip(rotated_cipher)]
-  end
-
+  # decrypt individual letter
   def decrypt_letter(letter, rotation)
     cipher_lookup = cipher(rotation)
     cipher_lookup[letter]
   end
+
+  # def rotation_gen
+  #   keys = KeyGen.new.key_map(@key)
+  #   offsets = KeyGen.new.offsets_map(@date)
+  #   rotations = [keys, offsets].transpose.map {|rotation| rotation.reduce(:+)}
+  # end
+  #
+  # def cipher(rotation)
+  #   cipher = ('a'..'z').to_a + ('0'..'9').to_a + [" ", ",", "."]
+  #   rotated_cipher = cipher.rotate(rotation)
+  #   Hash[cipher.zip(rotated_cipher)]
+  # end
 
 end

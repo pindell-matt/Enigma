@@ -15,7 +15,7 @@ class Crack < Decryptor
     @decrypted_message = []
   end
 
-  # provides output's final complete set of ABCD
+  # finds output's final complete set of ABCD rotations
   def find_final_rotation_set(output)
     cracked = output.chars
     cracked.pop(remainder)
@@ -31,28 +31,16 @@ class Crack < Decryptor
     end
   end
 
-  # def decrypt_with_crack
-  #   range = (-4-remainder)..(-1-remainder)
-  #   cracked_rotations = [@stnrd_end_cipher[range], output_cipher_rotations].transpose.map {|rotation| rotation.reduce(:-)}
-  #   cracking = output.chars
-  #   decrypted_message = []
-  #   cracking.each_with_index do |char, i|
-  #     letter = decrypt_letter(char, cracked_rotations[(i % 4)])
-  #     decrypted_message << letter
-  #   end
-  #   decrypted_message.join("")
-  # end
-
+  # subtracts the output rotations from the standard cipher rotations
   def rotation_gen
     range = (-4-remainder)..(-1-remainder)
     [@stnrd_end_cipher[range], output_cipher_rotations].transpose.map {|rotation| rotation.reduce(:-)}
   end
 
+  # decrypts the output with the generated rotations
   def crack
     rotations = rotation_gen
-    message = output.chars
-    # binding.pry
-    message.each_with_index do |char, i|
+    (output.chars).each_with_index do |char, i|
       letter = decrypt_letter(char, rotations[(i % 4)])
       decrypted_message << letter
     end
@@ -60,18 +48,3 @@ class Crack < Decryptor
   end
 
 end
-
-# message: "test ..end.."
-# e = Crack.new(",3p4py9p529k,")
-# puts e.find_final_rotation(",3p4py9p529k,")
-# puts "\nFinal complete four"
-# puts e.find_final_rotation_set(",3p4py9p529k,")
-# puts "\nStndrd Output Cipher"
-# puts e.output_cipher_rotations
-# puts "\nOutput Rotations"
-# # puts e.generate_crack_rotations
-# puts "\n"
-# puts e.decrypt_with_crack
-#
-# a = Crack.new("wez7374z7pibaov w9kw.akr", Date.today)
-# puts a.decrypt_with_crack
