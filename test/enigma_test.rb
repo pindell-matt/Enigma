@@ -85,6 +85,31 @@ class EnigmaTest < Minitest::Test
    assert_equal "date defaults ..end..", decrypted
   end
 
+  def test_encrypt_by_itself
+    e = Enigma.new
+    message = "..end.."
+    expected = "t5dxx5,"
+
+    assert_equal expected, e.encrypt(message, 12345, Date.parse("121212"))
+  end
+
+  def test_decrypt_by_itself
+    e = Enigma.new
+    encrypted_message = "t5dxx5,"
+    expected = "..end.."
+
+    assert_equal expected, e.decrypt(encrypted_message, 12345, Date.parse("121212"))
+    # e.crack(expected_encrypted, Date.parse("121212"))
+  end
+
+  def test_crack_by_itself
+    e = Enigma.new
+    encrypted_message = "t5dxx5,"
+    expected = "..end.."
+
+    assert_equal expected, e.crack(encrypted_message, Date.parse("121212"))
+  end
+
 end
 
 # require './lib/enigma'

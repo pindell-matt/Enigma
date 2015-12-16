@@ -4,44 +4,21 @@ require 'date'
 require 'pry'
 
 class Crack < Decryptor
-  attr_reader :output
+  attr_reader :output, :remainder
   attr_accessor :solved_message
 
   def initialize(output, date = Date.today)
     @output = output
     @date = date.strftime("%d%m%y").to_i
-    @stnrd_end_cipher = [13, 3, 38, 38]
-  end
-
-  def find_final_rotation(output)
-    remainder = output.length % 4
-    if remainder == 3
-      "C"
-    elsif remainder == 2
-      "B"
-    elsif remainder == 1
-      "A"
-    else
-      "D"
-    end
+    @stnrd_end_cipher = [38, 38, 4, 13, 3, 38, 38]
+    @remainder = output.length % 4
   end
 
   # provides output's final complete set of ABCD
   def find_final_rotation_set(output)
-    remainder = output.length % 4
     cracked = output.chars
-    if remainder == 3
-      cracked.pop(3)
-      cracked[-4..-1]
-    elsif remainder == 2
-      cracked.pop(2)
-      cracked[-4..-1]
-    elsif remainder == 1
-      cracked.pop(1)
-      cracked[-4..-1]
-    else
-      cracked[-4..-1]
-    end
+    cracked.pop(remainder)
+    cracked[-4..-1]
   end
 
   # generates standard cipher numbers for output (encrypted message)
@@ -54,11 +31,25 @@ class Crack < Decryptor
   end
 
   def decrypt_with_crack
-    cracked_rotations = [@stnrd_end_cipher, output_cipher_rotations].transpose.map {|rotation| rotation.reduce(:-)}
+    range = (-4-remainder)..(-1-remainder)
+    cracked_rotations = [@stnrd_end_cipher[range], output_cipher_rotations].transpose.map {|rotation| rotation.reduce(:-)}
     cracking = output.chars
     decrypted_message = []
     cracking.each_with_index do |char, i|
       letter = decrypt_letter(char, cracked_rotations[(i % 4)])
+      decrypted_message << letter
+    end
+    decrypted_message.join("")
+  end
+
+
+  def decrypt
+    rotations_one = rotation_gen
+    rotations = rotations_one.map do |rotation|
+      rotation * (-1)
+    end
+    message.each_with_index do |char, i|
+      letter = decrypt_letter(char, rotations[(i % 4)])
       decrypted_message << letter
     end
     decrypted_message.join("")
