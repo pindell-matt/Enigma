@@ -33,16 +33,4 @@ class Decryptor < Encryptor
     cipher_lookup[letter]
   end
 
-  # def rotation_gen
-  #   keys = KeyGen.new.key_map(@key)
-  #   offsets = KeyGen.new.offsets_map(@date)
-  #   rotations = [keys, offsets].transpose.map {|rotation| rotation.reduce(:+)}
-  # end
-  #
-  # def cipher(rotation)
-  #   cipher = ('a'..'z').to_a + ('0'..'9').to_a + [" ", ",", "."]
-  #   rotated_cipher = cipher.rotate(rotation)
-  #   Hash[cipher.zip(rotated_cipher)]
-  # end
-
 end
