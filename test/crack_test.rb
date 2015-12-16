@@ -25,12 +25,26 @@ class CrackTest < Minitest::Test
     assert_equal expected, example.output_cipher_rotations
   end
 
+  def test_rotation_gen
+    output = ",3p4py9p529k,"
+    expected = 
+
   def test_decrypt_with_crack
+    skip
     output = ",3p4py9p529k,"
     expected = "test ..end.."
     example = Crack.new(output, Date.parse("151212"))
 
     assert_equal expected, example.decrypt_with_crack
+  end
+
+  def test_decrypt_with_crack
+    skip
+    output = ",3p4py9p529k,"
+    expected = "test ..end.."
+    example = Crack.new(output, Date.parse("151212"))
+
+    assert_equal expected, example.crack
   end
 
 end

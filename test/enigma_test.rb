@@ -29,7 +29,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_rotations_gen
-    skip
     e = Encryptor.new("test ..end..", 12345, Date.parse("151212"))
     rotations = e.rotation_gen
 

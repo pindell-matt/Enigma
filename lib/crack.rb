@@ -12,6 +12,7 @@ class Crack < Decryptor
     @date = date.strftime("%d%m%y").to_i
     @stnrd_end_cipher = [38, 38, 4, 13, 3, 38, 38]
     @remainder = output.length % 4
+    @decrypted_message = []
   end
 
   # provides output's final complete set of ABCD
@@ -30,24 +31,27 @@ class Crack < Decryptor
     end
   end
 
-  def decrypt_with_crack
+  # def decrypt_with_crack
+  #   range = (-4-remainder)..(-1-remainder)
+  #   cracked_rotations = [@stnrd_end_cipher[range], output_cipher_rotations].transpose.map {|rotation| rotation.reduce(:-)}
+  #   cracking = output.chars
+  #   decrypted_message = []
+  #   cracking.each_with_index do |char, i|
+  #     letter = decrypt_letter(char, cracked_rotations[(i % 4)])
+  #     decrypted_message << letter
+  #   end
+  #   decrypted_message.join("")
+  # end
+
+  def rotation_gen
     range = (-4-remainder)..(-1-remainder)
-    cracked_rotations = [@stnrd_end_cipher[range], output_cipher_rotations].transpose.map {|rotation| rotation.reduce(:-)}
-    cracking = output.chars
-    decrypted_message = []
-    cracking.each_with_index do |char, i|
-      letter = decrypt_letter(char, cracked_rotations[(i % 4)])
-      decrypted_message << letter
-    end
-    decrypted_message.join("")
+    [@stnrd_end_cipher[range], output_cipher_rotations].transpose.map {|rotation| rotation.reduce(:-)}
   end
 
-
-  def decrypt
-    rotations_one = rotation_gen
-    rotations = rotations_one.map do |rotation|
-      rotation * (-1)
-    end
+  def crack
+    rotations = rotation_gen
+    message = output.chars
+    # binding.pry
     message.each_with_index do |char, i|
       letter = decrypt_letter(char, rotations[(i % 4)])
       decrypted_message << letter
