@@ -29,7 +29,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_rotations_gen
-    skip
     e = Encryptor.new("test ..end..", 12345, Date.parse("151212"))
     rotations = e.rotation_gen
 
@@ -83,6 +82,30 @@ class EnigmaTest < Minitest::Test
    decrypted = e.decrypt("xjflrm3mu3 0.gygyw2gt", 02666)
 
    assert_equal "date defaults ..end..", decrypted
+  end
+
+  def test_encrypt_by_itself
+    e = Enigma.new
+    message = "..end.."
+    expected = "t5dxx5,"
+
+    assert_equal expected, e.encrypt(message, 12345, Date.parse("121212"))
+  end
+
+  def test_decrypt_by_itself
+    e = Enigma.new
+    encrypted_message = "t5dxx5,"
+    expected = "..end.."
+
+    assert_equal expected, e.decrypt(encrypted_message, 12345, Date.parse("121212"))
+  end
+
+  def test_crack_by_itself
+    e = Enigma.new
+    encrypted_message = "t5dxx5,"
+    expected = "..end.."
+
+    assert_equal expected, e.crack(encrypted_message, Date.parse("121212"))
   end
 
 end
