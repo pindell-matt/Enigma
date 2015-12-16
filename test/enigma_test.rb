@@ -108,16 +108,6 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, e.crack(encrypted_message, Date.parse("121212"))
   end
 
-  def test_full_encrypt_decrypt_crack_suite
-    message
-    decrypted
-    cracked
-    d = Enigma.new
-
-
-
-  end
-
 end
 
 # require './lib/enigma'
