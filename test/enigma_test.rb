@@ -98,7 +98,6 @@ class EnigmaTest < Minitest::Test
     expected = "..end.."
 
     assert_equal expected, e.decrypt(encrypted_message, 12345, Date.parse("121212"))
-    # e.crack(expected_encrypted, Date.parse("121212"))
   end
 
   def test_crack_by_itself
@@ -107,6 +106,16 @@ class EnigmaTest < Minitest::Test
     expected = "..end.."
 
     assert_equal expected, e.crack(encrypted_message, Date.parse("121212"))
+  end
+
+  def test_full_encrypt_decrypt_crack_suite
+    message
+    decrypted
+    cracked
+    d = Enigma.new
+
+
+
   end
 
 end
