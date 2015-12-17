@@ -39,13 +39,17 @@ class Crack < Decryptor
 
   # decrypts the output with the generated rotations
   def crack
-    binding.pry
     rotations = rotation_gen
     (output.chars).each_with_index do |char, i|
       letter = decrypt_letter(char, rotations[(i % 4)])
       decrypted_message << letter
     end
     decrypted_message.join("")
+  end
+
+  def key_crack
+
+
   end
 
 end
