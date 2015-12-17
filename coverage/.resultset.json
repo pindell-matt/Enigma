@@ -89,12 +89,6 @@
         147,
         null,
         null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
         null
       ],
       "/Users/mattpindell/turing/1module/projects/main/enigma2/lib/key.rb": [
@@ -214,6 +208,6 @@
         null
       ]
     },
-    "timestamp": 1450300045
+    "timestamp": 1450309467
   }
 }
