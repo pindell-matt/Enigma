@@ -40,9 +40,3 @@ class Encryptor
   end
 
 end
-
-# NEED TO ADD FILE IO
-# read a file
-# write said file to a variable
-# create 2 files
-# run program and output product to 2nd created file
